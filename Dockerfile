@@ -8,6 +8,7 @@ WORKDIR /app
 
 EXPOSE 80
 
-VOLUME /shop-container
+VOLUME /data
 
-CMD [ "php", "-S", "0.0.0.0:80", "-t", "/app" ]
+ENTRYPOINT [ "php", "-S", "0.0.0.0:80", "-t", "/app" ]
+#ENTRYPOINT ["sleep", "infinity"]
