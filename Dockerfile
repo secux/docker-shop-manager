@@ -10,4 +10,4 @@ EXPOSE 80
 
 VOLUME /shop-container
 
-CMD [ "php", "-S", "localhost:80", "-t", "/app" ]
+CMD [ "php", "-S", "0.0.0.0:80", "-t", "/app" ]
