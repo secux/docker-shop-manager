@@ -25,6 +25,9 @@ COPY ./app /app
 # where to install shop
 RUN mkdir /www
 
+# copy git auth (otherwise api rate limit during some installations!)
+COPY ./config/git.auth.json /root/.composer/auth.json
+
 WORKDIR /app
 
 EXPOSE 80
