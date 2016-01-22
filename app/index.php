@@ -1,5 +1,8 @@
 <?php
 
+header('Content-type: text/html; charset=UTF-8');
+
+
 echo "<html><body>\n";
 
 
@@ -7,39 +10,37 @@ if ($ver = $_GET['ver']) {
 
     echo "<h1>Installation Version $ver</h1>\n";
 
-    //passthru("/data/install.sh $ver"); # no stream, just one output at the end :-(
-
-    while (@ ob_end_flush()); // end all output buffers if any
-
-    $proc = popen("/data/install.sh $ver", 'r');
     echo '<pre>';
+
+
+    // Output of sub command called in scripts are not part of that :-(
+    
+    $proc = popen("/data/install.sh $ver", 'r');
     while (!feof($proc))
     {
         echo fread($proc, 1024);
         @ flush();
     }
+
     echo '</pre>';
 
     echo '<h2>Installation finished! Open your webbrowser and have fun!</h2>';
 
 
 } else {
+
+    echo "<h1>Select version</h1>\n";
+
     // run list
     $output = null;
     $output = null;
 
     exec("/data/list.sh", $output, $return);
 
-    var_dump($output);
-
     if (is_array($output)) {
-        echo "<ul>";
-
         foreach ($output as $ver) {
-            echo '<a href="index.php?ver='.$ver.'">Version '.$ver.'</a>';
+            echo '<p><a href="index.php?ver='.$ver.'">Version '.$ver.'</a></p>';
         }
-
-        echo "</ul>";
     } else {
         echo "Invalid list output";
     }
