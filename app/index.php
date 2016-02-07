@@ -38,7 +38,9 @@ if ($ver = $_GET['ver']) {
     exec("/data/list.sh", $output, $return);
 
     if (is_array($output)) {
-        foreach ($output as $ver) {
+        foreach ($output as $tag) {
+            // $string = strstr($tag, 'tags/');
+            $ver = str_replace("tags/", "", strstr($tag, 'tags/'));
             echo '<p><a href="index.php?ver='.$ver.'">Version '.$ver.'</a></p>';
         }
     } else {
