@@ -36,11 +36,13 @@ if ($ver = $_GET['ver']) {
     $output = null;
 
     exec("/data/list.sh", $output, $return);
+    // comment / uncomment for testing
+    // exec("/var/www/docker-shop-magento2/data/list.sh", $output, $return);
 
     if (is_array($output)) {
         foreach ($output as $tag) {
-            // $string = strstr($tag, 'tags/');
-            $ver = str_replace("tags/", "", strstr($tag, 'tags/'));
+            $string = strstr($tag, 'tags/');
+            $ver = str_replace("tags/", "", $string);
             echo '<p><a href="index.php?ver='.$ver.'">Version '.$ver.'</a></p>';
         }
     } else {
