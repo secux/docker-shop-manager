@@ -57,7 +57,8 @@ if ($ver = $_GET['ver']) {
     // exec("/var/www/docker-shop-magento2/data/list.sh", $output, $return);
 
     if (is_array($output)) {
-        foreach ($output as $tag) {
+        $tags = array_reverse($output);
+        foreach ($tags as $tag) {
             $string = strstr($tag, 'tags/');
             $ver = str_replace("tags/", "", $string);
             echo '<div class="col-xs-12 col-sm-6 col-md-3"><p><a class="btn btn-primary" href="index.php?ver='.$ver.'">Version '.$ver.'</a></p></div>';
