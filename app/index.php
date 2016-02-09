@@ -53,8 +53,6 @@ if ($ver = $_GET['ver']) {
     $output = null;
 
     exec("/data/list.sh", $output, $return);
-    // comment / uncomment for testing
-    // exec("/var/www/docker-shop-magento2/data/list.sh", $output, $return);
 
     if (is_array($output)) {
         $tags = array_reverse($output);

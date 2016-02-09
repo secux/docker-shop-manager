@@ -25,6 +25,10 @@ COPY ./app /app
 # where to install shop
 RUN mkdir /www
 
+RUN ls -la
+
+asd
+
 # copy git auth (otherwise api rate limit during some installations!)
 COPY ./config/git.auth.json /root/.composer/auth.json
 
