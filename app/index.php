@@ -1,5 +1,8 @@
 <?php
 
+require_once("functions.php");
+require_once("token.php");
+
 header('Content-type: text/html; charset=UTF-8');
 
 
@@ -27,7 +30,7 @@ if ($ver = $_GET['ver']) {
 
     // Output of sub command called in scripts are not part of that :-(
     
-    $proc = popen("/data/install.sh $ver", 'r');
+    $proc = popen("/data/install.sh $ver $token", 'r');
     while (!feof($proc))
     {
         echo fread($proc, 1024);
