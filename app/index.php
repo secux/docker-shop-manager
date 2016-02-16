@@ -60,8 +60,7 @@ if ($ver = $_GET['ver']) {
     if (is_array($output)) {
         $tags = array_reverse($output);
         foreach ($tags as $tag) {
-            $string = strstr($tag, 'tags/');
-            $ver = str_replace("tags/", "", $string);
+            $ver = cleanTag($tag);
             echo '<div class="col-xs-12 col-sm-6 col-md-3"><p><a class="btn btn-primary" href="index.php?ver='.$ver.'">Version '.$ver.'</a></p></div>';
         }
     } else {
