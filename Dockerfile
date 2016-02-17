@@ -17,7 +17,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     && apt-get install -qy --force-yes \
     git
 
-RUN apt-get -y install php5-mcrypt php5-gd unzip && \
+RUN apt-get -y install php5-mcrypt php5-gd unzip wget && \
 rm -fr /var/cache/*
 
 # own gui
