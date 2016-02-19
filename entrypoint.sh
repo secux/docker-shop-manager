@@ -9,6 +9,9 @@ while read -r line; do
   # split var and value by =
   name=${line%=*}
   val=${line#*=}
+  # clear quotes from start/end
+  val="${val%\'}"
+  val="${val#\'}"
 
   # split value by :
   key=${val%:*}
@@ -16,7 +19,7 @@ while read -r line; do
 
   echo "Setting composer config [$key]=$value"
 
-  /usr/local/bin/composer.phar config -g "$key" "$value"
+  /usr/local/bin/composer.phar config -g $key $value
 
 done <<< "$COMPOSER_CONFIG"
 
