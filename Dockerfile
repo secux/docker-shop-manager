@@ -20,6 +20,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get -y install php5-mcrypt php5-gd unzip wget && \
 rm -fr /var/cache/*
 
+RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.0.0/dumb-init_1.0.0_amd64.deb
+RUN dpkg -i dumb-init_*.deb
+
 # own gui
 RUN mkdir /app
 COPY ./app /app
@@ -35,4 +38,4 @@ WORKDIR /app
 EXPOSE 80
 
 COPY ./entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
