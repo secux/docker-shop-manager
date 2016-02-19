@@ -15,7 +15,7 @@ while read -r line; do
 
   # split value by :
   key=${val%:*}
-  value=${line#*:}
+  value=${val#*:}
 
   echo "Setting composer config [$key]=$value"
 
