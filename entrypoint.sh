@@ -1,14 +1,26 @@
 #!/bin/bash
 
+### Set composer configurations from envrionment ###
+
+# read relevant environment variables
+COMPOSER_CONFIG=$(set | grep COMPOSER_CONFIG)
+
+while read -r line; do
+  # split var and value by =
+  name=${line%=*}
+  val=${line#*=}
+
+  # split value by :
+  key=${val%:*}
+  value=${line#*:}
+
+  echo "Setting composer config [$key]=$value"
+
+  /usr/local/bin/composer.phar config -g "$key" "$value"
+
+done <<< "$COMPOSER_CONFIG"
+
+
 echo "Starting PHP Standalone webserver for manager GUI"
-
-if [ -z "$GIT_CREDENTIALS" ] 
-then
-  echo "GIT_CREDENTIALS envrionment variable not set"
-  exit 64
-fi
-
-echo -e "$GIT_CREDENTIALS" > $HOME/.netrc
-chmod 600 /$HOME/.netrc
 
 php -S 0.0.0.0:80 -t /app
