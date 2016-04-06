@@ -1,6 +1,7 @@
 FROM php:5.6-cli
 
 
+# pdo_mysql, mbstring required by Magento2 command line - Mircea #
 RUN apt-get update -qq \
     && apt-get install -y \
         libfreetype6-dev \
@@ -8,9 +9,21 @@ RUN apt-get update -qq \
         libmcrypt-dev \
         libpng12-dev \
         libzip-dev \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt zip \
+    && docker-php-ext-install -j$(nproc) iconv mcrypt mysql pdo_mysql mbstring zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
+
+
+
+## Required in order to be able to install auto-Magento2 on the command line - Mircea ##
+RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
+RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
+RUN echo "xdebug.max_nesting_level=200" > $PHP_INI_DIR/conf.d/nesting-level.ini
+## Required in order to be able to install auto-Magento2 on the command line - Mircea ##
+
+
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin \
