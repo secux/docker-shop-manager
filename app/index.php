@@ -4,6 +4,9 @@ require_once("functions.php");
 
 header('Content-type: text/html; charset=UTF-8');
 
+// needs to be taken from http_host since server_name is not set here in the manager
+// remove the manager port and pass it below using $_GET to the installation page
+$srv = str_replace(":6080", "", $_SERVER['HTTP_HOST']);
 
 echo "<html>
 
@@ -19,7 +22,7 @@ echo "<html>
 
     echo "<div class='container-fluid'>\n";
 
-if ($ver = $_GET['ver']) {
+if (($ver = $_GET['ver']) && ($srv = $_GET['srv'])) {
 
     echo "<div class='row'>\n";
     echo "<h1>Installation Version $ver</h1>\n";
@@ -29,7 +32,7 @@ if ($ver = $_GET['ver']) {
 
     // Output of sub command called in scripts are not part of that :-(
     
-    $proc = popen("/data/install.sh $ver", 'r');
+    $proc = popen("/data/install.sh $ver $srv", 'r');
     while (!feof($proc))
     {
         echo fread($proc, 1024);
@@ -60,7 +63,7 @@ if ($ver = $_GET['ver']) {
         $tags = array_reverse($output);
         foreach ($tags as $tag) {
             $ver = cleanTag($tag);
-            echo '<div class="col-xs-12 col-sm-6 col-md-3"><p><a class="btn btn-primary" href="index.php?ver='.$ver.'">Version '.$ver.'</a></p></div>';
+            echo '<div class="col-xs-12 col-sm-6 col-md-3"><p><a class="btn btn-primary" href="index.php?ver='.$ver.'&srv='.$srv.'">Version '.$ver.'</a></p></div>';
         }
     } else {
         echo "Invalid list output";
